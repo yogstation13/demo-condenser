@@ -10,6 +10,23 @@ if (condense_dir == null || condense_dir == "") {
     return;
 }
 
+function condense(dir = condense_dir) {
+	fs.readdir(dir, (err, files) => {
+		if(err) {console.error(err); return;}
+		for(let file of files) {
+			let full = path.join(dir, file);
+			fs.stat(full, (err, stat) => {
+				if(err) {console.error(err); return;}
+				if(stat.isDirectory()) {
+					condense(full);
+				} else if(file == "demo.txt") {
+					condense_file(full);
+				}
+			});
+		}
+	});
+}
+
 function condense_file(filename) {
 	console.log("Compressing " + filename + "...");
 	let reader = fs.createReadStream(filename);
@@ -29,17 +46,4 @@ function condense_file(filename) {
 	});
 }
 
-fs.readdir(condense_dir, (err, files) => {
-    if(err) {console.error(err); return;}
-    for(let file of files) {
-        let full = path.join(condense_dir, file);
-        fs.stat(full, (err, stat) => {
-            if(err) {console.error(err); return;}
-            if(stat.isDirectory()) {
-                condense(full);
-            } else if(file == "demo.txt") {
-                condense_file(full);
-            }
-        });
-    }
-});
+condense();
