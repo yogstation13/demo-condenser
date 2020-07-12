@@ -19,6 +19,8 @@ function condense(dir = condense_dir) {
 				if(err) {console.error(err); return;}
 				if(stat.isDirectory()) {
 					condense(full);
+				} else if(stat.mtime < (new Date().getTime() - 1000*60*60*24) {
+					console.warn("Skipping " + filename + ", too new");
 				} else if(file == "demo.txt") {
 					condense_file(full);
 				}
@@ -40,7 +42,7 @@ function condense_file(filename) {
 			if(err) {
 				console.error(filename + " failed to delete (round probably not done)");
 			} else {
-				console.error("Deleted uncompressed demo at " + filename);
+				console.log("Deleted uncompressed demo at " + filename);
 			}
 		});
 	});
