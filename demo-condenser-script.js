@@ -20,7 +20,7 @@ function condense(dir = condense_dir) {
 				if(stat.isDirectory()) {
 					condense(full);
 				} else if(stat.mtime < (new Date().getTime() - 1000*60*60*24)) {
-					console.warn("Skipping " + filename + ", too new");
+					console.warn("Skipping " + full + ", too new");
 				} else if(file == "demo.txt") {
 					condense_file(full);
 				}
