@@ -1,3 +1,7 @@
-FROM node:13.12.0-alpine
-COPY ./demo-condenser-script.js .
-CMD ["node", "demo-condenser-script.js"]
+FROM alpine:3.12.0
+
+COPY ./condense.sh .
+
+RUN chmod +x ./condense.sh
+
+ENTRYPOINT ["./condense.sh"]
